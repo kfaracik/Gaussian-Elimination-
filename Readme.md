@@ -50,7 +50,7 @@ to see Foata Noraml Form of threads (each color is different independent set of 
 - checking the result matrix
 
 ## Startup
-Run the program with the following arguments:
+Run the program with the following arguments (default calculation accuracy = 10^-10):
 - n - rozmiar macierzy do wygenerowania
 - generate input matrix - false if you wat solve your matrix 
 - input - nazwa wygenerowanego pliku z danymi wejściowymi

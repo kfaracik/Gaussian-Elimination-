@@ -18,6 +18,7 @@ public class GaussianElimination {
     private final int jSize;
     private final int kSize;
     private final int n;
+    private final int accuracy = 10;
 
     private final ThreadGauss[][] threadSetA;
     private final ThreadGauss[][][] threadSet;
@@ -199,12 +200,12 @@ public class GaussianElimination {
         for (int i = n - 1; i >= 0; i--) {
             for (int k = i - 1; k >= 0; k--) {
                 double factor = matrix.get(k, i) / matrix.get(i, i);
-                matrix.set(k, i, matrix.get(k, i) - factor * matrix.get(i, i));
-                matrix.set(k, n, matrix.get(k, n) - factor * matrix.get(i, n));
+                matrix.set(k, i, round(matrix.get(k, i) - factor * matrix.get(i, i), accuracy));
+                matrix.set(k, n, round(matrix.get(k, n) - factor * matrix.get(i, n), accuracy));
             }
 
-            matrix.set(i, n, matrix.get(i, n) / matrix.get(i, i));
-            matrix.set(i, i, matrix.get(i, i) / matrix.get(i, i));
+            matrix.set(i, n, round(matrix.get(i, n) / matrix.get(i, i), accuracy));
+            matrix.set(i, i, round(matrix.get(i, i) / matrix.get(i, i), accuracy));
         }
     }
 
@@ -214,12 +215,20 @@ public class GaussianElimination {
     }
 
     private void B(int i, int j, int k) {
-        double multiplied = matrix.get(i, j) * matrixA.get(k, i);
+        double multiplied = round(matrix.get(i, j) * matrixA.get(k, i), accuracy);
         arrB[i][j][k] = multiplied;
     }
 
     private void C(int i, int j, int k) {
-        double diff = matrix.get(k, j) - arrB[i][j][k];
+        double diff = round(matrix.get(k, j) - arrB[i][j][k], accuracy);
         matrix.set(k, j, diff);
+    }
+
+    private double round(double number, int accuracy) {
+        float factor = 1;
+        for (int i=0; i<accuracy; i++)
+            factor *=10;
+
+        return Math.round(number*factor)/factor;
     }
 }
